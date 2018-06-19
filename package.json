@@ -9,9 +9,9 @@
   "scripts": {
     "start": "npm run serve:prpl-server",
     "build": "npm run build:prpl-server && npm run build:static",
-    "build:prpl-server": "node_modules/.bin/polymer build --auto-base-path && node_modules/.bin/gulp prpl-server",
-    "build:static": "polymer build",
-    "serve:prpl-server": "node_modules/.bin/prpl-server --root server/build",
+    "build:prpl-server": "`npm bin`/polymer build --auto-base-path && `npm bin`/gulp prpl-server",
+    "build:static": "`npm bin`/polymer build",
+    "serve:prpl-server": "`npm bin`/prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
@@ -19,7 +19,7 @@
     "test:sauce": "polymer test --module-resolution=node --npm -s 'windows 10/microsoftedge@17' -s 'macos 10.13/safari@11'",
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000",
     "deploy": "gcloud app deploy",
-    "postinstall": "npm run build",
+    "postinstall": "npm run build:prpl-server",
     "dev": "polymer serve"
   },
   "dependencies": {
@@ -28,7 +28,14 @@
     "pwa-helpers": "^0.8.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+
+    "polymer-cli": "^1.7.2",
+    "gulp": "^4.0.0",
+    "gulp-rename": "^1.2.3",
+    "gulp-replace": "^1.0.0",
+    "del": "^3.0.0",
+    "prpl-server": "^1.1.0"
   },
   "devDependencies": {
     "axe-core": "^3.0.0",

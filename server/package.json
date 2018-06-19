@@ -4,7 +4,7 @@
   "contributors": [
     "Christian Sterzl <christian.sterzl@gmail.com>"
   ],
-  "license": "GPL v3",
+  "license": "GPL-3.0-or-later",
   "repository": "Waxolunist/paint",
   "scripts": {
     "start": "prpl-server --root build/ --host 0.0.0.0 --https-redirect --bot-proxy https://render-tron.appspot.com/render"

@@ -44,10 +44,13 @@ These are high priority and currently being worked on, and they will all be fixe
 
 # Issues
 
-- [ ] mobile support
+- [x] mobile support
 - [ ] localforge? for async localstorage support
-- [ ] touch support
+- [x] touch support
 - [ ] disable reload?
-- [ ] installable
+- [x] installable
 - [x] app icons
 - [ ] adjust to orientation of device
+- [ ] add brown
+- [ ] disable zoom 
+- [ ] about page

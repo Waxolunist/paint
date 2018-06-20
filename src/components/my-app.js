@@ -57,7 +57,12 @@ class MyApp extends connect(store)(LitElement) {
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
     setPassiveTouchGestures(true);
-    window.screen.orientation.lock('portrait');
+    try {
+      window.screen.orientation.lock('portrait');
+    }
+    catch(err) {
+      console.log(err.message);
+    }
   }
 
   _firstRendered() {

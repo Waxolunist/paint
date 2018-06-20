@@ -26,7 +26,7 @@ export const addPainting = () => (dispatch) => {
   
   export const openPainting = (paintingid) => (dispatch) => {
     dispatch(receivePainting(paintingid));
-    dispatch(updateLocationURL('paint/' + paintingid));
+    dispatch(updateLocationURL('/paint/' + paintingid));
   };
 
   export const removePainting = (paintingid) => (dispatch) => {

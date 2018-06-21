@@ -8,6 +8,10 @@ Use a touch screen compatible pen for the best user experience.
 
 If you have any issues with the app or want to see new features, just create an github issue please.
 
+# Try It
+
+[Paint for Kids](https://paint-pwa.appspot.com)
+
 # Usage
 
 This software is licensed under the GPLv3. You are allowed to distribute this application and use it, but not to sell or market it, or gain any other financial advantage out of redistributing it.

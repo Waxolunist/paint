@@ -1,29 +1,28 @@
 /**
 @license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+Copyright (C) 2018  Christian Sterzl <christian.sterzl@gmail.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 
 export const navigate = (location) => (dispatch) => {
-  // Extract the page name from path.
-  // Extract the page name from path.
-  // Any other info you might want to extract from the path (like page type),
-  // you can do here.
   const pathname = location.pathname;
   const parts = pathname.slice(1).split('/');
   const page = parts[0] || 'overview';
-  // book id is in the path: /detail/{detailId}
   const detailId = parts[1];
-  // query is extracted from the search string: /explore?q={query}
-
-  // Any other info you might want to extract from the path (like page type),
-  // you can do here
   dispatch(loadPage(page, detailId));
 };
 

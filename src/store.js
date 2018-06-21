@@ -1,11 +1,19 @@
 /**
 @license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+Copyright (C) 2018  Christian Sterzl <christian.sterzl@gmail.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
 
 import {
@@ -21,15 +29,7 @@ import app from './reducers/app.js';
 import paint from './reducers/painting.js'
 import { Painting } from './model/painting.js';
 
-// Sets up a Chrome extension for time travel debugging.
-// See https://github.com/zalmoxisus/redux-devtools-extension for more information.
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || origCompose;
-
-// Initializes the Redux store with a lazyReducerEnhancer (so that you can
-// lazily add reducers after the store has been created) and redux-thunk (so
-// that you can dispatch async actions). See the "Redux and state management"
-// section of the wiki for more details:
-// https://github.com/Polymer/pwa-starter-kit/wiki/4.-Redux-and-state-management
 
 const localStorageMiddleware = ({getState}) => {
   return (next) => (action) => {
@@ -54,8 +54,6 @@ export const store = createStore(
   compose(lazyReducerEnhancer(combineReducers), applyMiddleware(thunk, localStorageMiddleware))
 );
 
-
-// Initially loaded reducers.
 store.addReducers({
   app, paint
 });

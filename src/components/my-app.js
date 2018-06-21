@@ -1,20 +1,34 @@
+/**
+@license
+Copyright (C) 2018  Christian Sterzl <christian.sterzl@gmail.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>
+*/
 import { LitElement, html } from '@polymer/lit-element';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
-// This element is connected to the Redux store.
 import { store } from '../store.js';
 
-// These are the actions needed by this element.
 import {
   updateLocationURL
 } from '../actions/app.js';
 
 class MyApp extends connect(store)(LitElement) {
   _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
-    // Anything that's related to rendering should be done in here.
     return html`
     <style>
 
@@ -36,7 +50,6 @@ class MyApp extends connect(store)(LitElement) {
       }
     </style>
 
-    <!-- Main content -->
     <main class="main-content">
       <overview-page class="page" active?="${_page === 'overview'}"></overview-page>
       <paint-page class="page" active?="${_page === 'paint'}"></paint-page>
@@ -75,7 +88,6 @@ class MyApp extends connect(store)(LitElement) {
       updateMetadata({
           title: pageTitle,
           description: pageTitle
-          // This object also takes an image property, that points to an img src.
       });
     }
   }

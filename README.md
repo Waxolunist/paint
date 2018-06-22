@@ -34,8 +34,9 @@ This application is a progressive web app. Just to name some buzzwords and techn
 
 This app has been tested on following browsers so far:
 
-- Google Chrome 67
-- Mozilla Firefox 60
+- Google Chrome 67 (Desktop, Linux Debian Jessie)
+- Google Chrome
+- Mozilla Firefox 60 (Desktop, Linux Debian Jesse)
 
 # Issues
 
@@ -46,10 +47,12 @@ This app has been tested on following browsers so far:
 - [x] installable
 - [x] app icons
 - [ ] adjust to orientation of device
-- [ ] add brown
-- [ ] disable zoom 
+- [ ] add colour brown
+- [x] disable zoom 
 - [ ] about page
-- [ ] get licensing of files right
+- [x] get licensing of files right
+- [ ] pointer polyfill (for firefox esr and iOS)
+- [ ] iOS support (add to homescreen, set icon bar colour, set icon background colour)
 
 # LICENSE
 

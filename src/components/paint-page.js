@@ -146,6 +146,7 @@ class PaintPage extends connect(store)(PageViewElement) {
         </div>
         <div id="paintingarea">
           <canvas id="canvas" class="shadow" width="${_canvasWidth}" height="${_canvasHeight}"
+            touch-action="none"
             onpointerdown="${e => this._pointerDown(e)}"
             onpointermove="${e => this._pointerMove(e)}"
             onpointerup="${e => this._pointerUp(e)}"

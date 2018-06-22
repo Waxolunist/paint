@@ -208,9 +208,9 @@ class PaintPage extends connect(store)(PageViewElement) {
     console.log(event);
     let paintingarea = this.shadowRoot.getElementById('paintingarea');
 
+    await waitTillTrue(() => paintingarea.clientWidth && paintingarea.clientHeight);
     console.log('_setCanvasGeometry start ' + this._canvasWidth + ':' + this._canvasHeight);
-    if(isLandscape()) {
-      await waitTillTrue(() => isLandscape(paintingarea.clientWidth, paintingarea.clientHeight));
+    if(isLandscape(paintingarea.clientWidth, paintingarea.clientHeight)) {
       console.log('landscape');
       let areaWidth = paintingarea.clientWidth;
       let areaHeight = paintingarea.clientHeight;
@@ -218,7 +218,6 @@ class PaintPage extends connect(store)(PageViewElement) {
       this._canvasHeight = 210 * scale;
       this._canvasWidth = 297 * scale;
     } else {
-      await waitTillTrue(() => !isLandscape(paintingarea.clientWidth, paintingarea.clientHeight));
       console.log('portrait');
       let areaWidth = paintingarea.clientWidth;
       let areaHeight = paintingarea.clientHeight;

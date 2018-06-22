@@ -30,6 +30,13 @@ This application is a progressive web app. Just to name some buzzwords and techn
 - Redux
 - Service workers
 
+# Browser compatibility
+
+This app has been tested on following browsers so far:
+
+- Google Chrome 67
+- Mozilla Firefox 60
+
 # Issues
 
 - [x] mobile support

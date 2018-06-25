@@ -35,13 +35,14 @@ This application is a progressive web app. Just to name some buzzwords and techn
 This app has been tested on following browsers so far:
 
 - Google Chrome 67 (Desktop, Linux Debian Jessie)
-- Google Chrome
-- Mozilla Firefox 60 (Desktop, Linux Debian Jesse)
+- Google Chrome 67 (Android)
+- Mozilla Firefox 60 (Desktop, Linux Debian Jessie)
+- Mozilla Firefox ESR 52 (Desktop, Linux Debian Jessie)
 
 # Issues
 
 - [x] mobile support
-- [ ] localforge? for async localstorage support
+- [ ] localforage? for async localstorage support
 - [x] touch support
 - [ ] disable reload?
 - [x] installable

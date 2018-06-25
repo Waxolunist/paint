@@ -146,12 +146,7 @@ class PaintPage extends connect(store)(PageViewElement) {
         </div>
         <div id="paintingarea">
           <canvas id="canvas" class="shadow" width="${_canvasWidth}" height="${_canvasHeight}"
-            touch-action="none"
-            onpointerdown="${e => this._pointerDown(e)}"
-            onpointermove="${e => this._pointerMove(e)}"
-            onpointerup="${e => this._pointerUp(e)}"
-            onpointercancel="${e => this._pointerCancel(e)}"
-          ></canvas>
+            touch-action="none"></canvas>
         </div>
       </div>
     `;
@@ -170,8 +165,9 @@ class PaintPage extends connect(store)(PageViewElement) {
     super._firstRendered();
     waitForId(this.shadowRoot, 'canvas').then(canvas => {
       this._canvas = canvas;
-      this._context = this._canvas.getContext("2d");
+      this._context = this._canvas.getContext('2d');
       this._setCanvasGeometry(this._canvas);
+      this._setupPointerEvents(this._canvas);
       window.addEventListener('orientationchange', e => {
         console.log('orientaitonchange');
         this._setCanvasGeometry(this._canvas, e);
@@ -238,6 +234,13 @@ class PaintPage extends connect(store)(PageViewElement) {
 
   _setColor(color) {
     this._color = color;
+  }
+
+  _setupPointerEvents(canvas) {
+      canvas.addEventListener('pointerdown', e => this._pointerDown(e));
+      canvas.addEventListener('pointermove', e => this._pointerMove(e));
+      canvas.addEventListener('pointerup', e => this._pointerUp(e));
+      canvas.addEventListener('pointercancel', e => this._pointerCancel(e));
   }
 
   _pointerDown(event) {

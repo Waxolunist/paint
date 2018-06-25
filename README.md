@@ -51,7 +51,7 @@ This app has been tested on following browsers so far:
 - [x] disable zoom 
 - [ ] about page
 - [x] get licensing of files right
-- [ ] pointer polyfill (for firefox esr and iOS)
+- [x] pointer polyfill (for firefox esr and iOS)
 - [ ] iOS support (add to homescreen, set icon bar colour, set icon background colour)
 
 # LICENSE

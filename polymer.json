@@ -6,6 +6,7 @@
   ],
   "extraDependencies": [
     "manifest.json",
+    "node_modules/pepjs/dist/pep.min.js",
     "node_modules/@webcomponents/webcomponentsjs/**",
     "push-manifest.json"
   ],

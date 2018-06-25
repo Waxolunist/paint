@@ -19,6 +19,10 @@ module.exports = {
       handler: 'fastest'
     },
     {
+      urlPattern: /\/pepjs\//,
+      handler: 'fastest'
+    },
+    {
       urlPattern: /^https:\/\/fonts.gstatic.com\//,
       handler: 'fastest'
     }

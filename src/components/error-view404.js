@@ -19,12 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 import { html } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
 
-import { SharedStyles } from './shared-styles.js';
-
 class ErrorView404 extends PageViewElement {
   _render(props) {
     return html`
-      ${SharedStyles}
       <section>
         <h2>Oops! You hit a 404</h2>
         <p>The page you're looking for doesn't seem to exist. Head back

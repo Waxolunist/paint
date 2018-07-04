@@ -74,7 +74,7 @@ class MyApp extends connect(store)(LitElement) {
       window.screen.orientation.lock('portrait');
     }
     catch(err) {
-      console.log(err.message);
+      console.log('Ignore this error: ' + err.message);
     }
   }
 

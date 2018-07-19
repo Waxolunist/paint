@@ -36,7 +36,10 @@ import { isLandscape } from '../utils/geometry.js';
 import { waitTillTrue } from '../utils/promises.js';
 import { Stroke } from '../model/painting.js';
 
-class PaintPage extends connect(store)(PageViewElement) {
+import { GestureEventListeners } from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
+
+class PaintPage extends connect(store)(GestureEventListeners(PageViewElement)) {
   _render({ _painting, _color, _canvasWidth, _canvasHeight }) {
     console.log('render: ' + this._canvasWidth + ':' + this._canvasHeight)
     return html`
@@ -145,8 +148,7 @@ class PaintPage extends connect(store)(PageViewElement) {
           </div>
         </div>
         <div id="paintingarea">
-          <canvas id="canvas" class="shadow" width="${_canvasWidth}" height="${_canvasHeight}"
-            touch-action="none"></canvas>
+          <canvas id="canvas" class="shadow" width="${_canvasWidth}" height="${_canvasHeight}"></canvas>
         </div>
       </div>
     `;
@@ -237,10 +239,21 @@ class PaintPage extends connect(store)(PageViewElement) {
   }
 
   _setupPointerEvents(canvas) {
-      canvas.addEventListener('pointerdown', e => this._pointerDown(e));
-      canvas.addEventListener('pointermove', e => this._pointerMove(e));
-      canvas.addEventListener('pointerup', e => this._pointerUp(e));
-      canvas.addEventListener('pointercancel', e => this._pointerCancel(e));
+      Gestures.addListener(this._canvas, 'track', e => this._handleTrack(e));
+  }
+
+  _handleTrack(event) {
+    switch(event.detail.state) {
+      case 'start':
+        this._pointerDown(event);
+        break;
+      case 'track':
+        this._pointerMove(event);
+        break;
+      case 'end':
+        this._pointerUp(event);
+        break;
+    }
   }
 
   _pointerDown(event) {
@@ -280,14 +293,10 @@ class PaintPage extends connect(store)(PageViewElement) {
     });
   }
 
-  _pointerCancel(event) {
-    this._pointerUp(event);
-  }
-
   _extractPoint(event) {
     return {
-      x: event.pageX - this._canvas.offsetLeft,
-      y: event.pageY - this._canvas.offsetTop
+      x: event.detail.x - this._canvas.offsetLeft,
+      y: event.detail.y - this._canvas.offsetTop
     };
   }
 }

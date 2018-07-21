@@ -52,7 +52,7 @@ This app has been tested on following browsers so far:
 - [x] disable zoom 
 - [ ] about page
 - [x] get licensing of files right
-- [x] pointer polyfill (for firefox esr and iOS)
+- [x] pointer polyfill (for firefox esr and iOS - using polymer gestures)
 - [ ] iOS support (add to homescreen, set icon bar colour, set icon background colour)
 
 # LICENSE

@@ -36,10 +36,7 @@ import { isLandscape } from '../utils/geometry.js';
 import { waitTillTrue } from '../utils/promises.js';
 import { Stroke } from '../model/painting.js';
 
-import { GestureEventListeners } from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
-
-class PaintPage extends connect(store)(GestureEventListeners(PageViewElement)) {
+class PaintPage extends connect(store)(PageViewElement) {
   _render({ _painting, _color, _canvasWidth, _canvasHeight }) {
     console.log('render: ' + this._canvasWidth + ':' + this._canvasHeight)
     return html`
@@ -239,65 +236,76 @@ class PaintPage extends connect(store)(GestureEventListeners(PageViewElement)) {
   }
 
   _setupPointerEvents(canvas) {
-      Gestures.addListener(this._canvas, 'track', e => this._handleTrack(e));
+      this._canvas.addEventListener('touchstart', e => this._pointerDown(e));
+      this._canvas.addEventListener('touchend', e => this._pointerUp(e));
+      this._canvas.addEventListener('touchcancel', e => this._pointerUp(e));
+      this._canvas.addEventListener('touchmove', e => this._pointerMove(e));
+      this._canvas.addEventListener('mousedown', e => this._pointerDown(e));
+      this._canvas.addEventListener('mouseup', e => this._pointerUp(e));
+      this._canvas.addEventListener('mousemove', e => this._pointerMove(e));
+      
   }
-
-  _handleTrack(event) {
-    switch(event.detail.state) {
-      case 'start':
-        this._pointerDown(event);
-        break;
-      case 'track':
-        this._pointerMove(event);
-        break;
-      case 'end':
-        this._pointerUp(event);
-        break;
-    }
-  }
-
+  
   _pointerDown(event) {
     event.preventDefault();
-    this._paint = true;
+    if(!this._paint) {
+      this._paint = true;
 
-    var point = this._extractPoint(event);
+      var points = this._extractPoint(event);
 
-    this._currentStroke = new Stroke(this._color);
-    this._currentStroke.addPoint(point);
+      this._currentStroke = new Stroke(this._color);
+      this._currentStroke.addPoint(points);
 
-    this._context.strokeStyle = this._color;
-    this._context.lineWidth = 4;
-    this._context.beginPath();
-    this._context.moveTo(point.x, point.y);
+      this._context.strokeStyle = this._color;
+      this._context.lineWidth = 4;
+      this._context.beginPath();
+      this._context.moveTo(points[0].x, points[0].y);
+      this._pointerMove(event);
+    }
   }
 
   _pointerMove(event) {
     if(this._paint) {
       event.preventDefault();
 
-      var point = this._extractPoint(event);
-      this._currentStroke.addPoint(point);
+      var points = this._extractPoint(event);
+      this._currentStroke.addPoint(points);
 
-      this._context.lineTo(point.x, point.y);
-      this._context.stroke();
+      points.forEach(p => {
+        this._context.lineTo(p.x, p.y);
+        this._context.stroke();
+      });
+      
     }
   }
 
   _pointerUp(event) {
     event.preventDefault();
-    this._paint = false;
-    this._painting.addStroke(this._currentStroke);
-    setTimeout(() => {
-      this._painting.dataURL = this._canvas.toDataURL("image/png");
-      store.dispatch(trigger());
-    });
+    if(this._paint) {
+      this._paint = false;
+      this._painting.addStroke(this._currentStroke);
+      setTimeout(() => {
+        this._painting.dataURL = this._canvas.toDataURL("image/png");
+        store.dispatch(trigger());
+      });
+    }
   }
 
   _extractPoint(event) {
-    return {
-      x: event.detail.x - this._canvas.offsetLeft,
-      y: event.detail.y - this._canvas.offsetTop
-    };
+    if(event.type.startsWith('mouse')) {
+      return [{
+        x: event.clientX - this._canvas.offsetLeft,
+        y: event.clientY - this._canvas.offsetTop
+      }];
+    } else {
+      return Array.from(event.changedTouches).map(t => { 
+          return {
+            x: t.clientX - this._canvas.offsetLeft,
+            y: t.clientY - this._canvas.offsetTop
+          }
+        }
+      );
+    }
   }
 }
 

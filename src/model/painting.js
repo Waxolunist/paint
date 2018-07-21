@@ -69,6 +69,10 @@ export class Stroke {
     }
 
     addPoint(point) {
-        this.points.push(point);
+        if(Array.isArray(point)) {
+            this.points.push(...point);
+        } else {
+            this.points.push(point);
+        }
     }
 }

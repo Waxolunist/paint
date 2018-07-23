@@ -38,6 +38,7 @@ This app has been tested on following browsers so far:
 - Google Chrome 67 (Android)
 - Mozilla Firefox 60 (Desktop, Linux Debian Jessie)
 - Mozilla Firefox ESR 52 (Desktop, Linux Debian Jessie)
+- Safari 11
 
 # Issues
 

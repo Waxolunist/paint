@@ -9,9 +9,9 @@
   "scripts": {
     "start": "npm run serve:prpl-server",
     "build": "npm run build:prpl-server && npm run build:static",
-    "build:prpl-server": "`npm bin`/polymer build --auto-base-path && `npm bin`/gulp prpl-server",
-    "build:static": "polymer build",
-    "serve:prpl-server": "`npm bin`/prpl-server --root server/build --host 0.0.0.0 --https-redirect",
+    "build:prpl-server": "polymer build --auto-base-path && gulp prpl-server",
+    "build:static": "polymer build --auto-base-path",
+    "serve:prpl-server": "prpl-server --root build --host 0.0.0.0 --config build/polymer.json",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",

@@ -8,9 +8,15 @@ Use a touch screen compatible pen for the best user experience.
 
 If you have any issues with the app or want to see new features, just create an github issue please.
 
+# Build
+
+    npm run build:static
+    docker build -t waxolunist/paint:latest -t waxolunist/paint:1 .
+    docker save waxolunist/paint:latest | gzip > paint_latest.tar.gz
+
 # Try It
 
-[Paint for Kids](https://paint-pwa.appspot.com)
+[Paint for Kids](https://paint.v-collaborate.com)
 
 # Usage
 

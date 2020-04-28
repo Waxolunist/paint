@@ -44,7 +44,7 @@ class OverviewPage extends connect(store)(PageViewElement) {
           --icon-size: 30;
           display: block;
           width: 100%;
-          background-color: #e3ecff;
+          background-color: #91b5ff;
         }
 
         #wrapper {

@@ -44,6 +44,7 @@ export const addPainting = () => (dispatch) => {
   export const openPainting = (paintingid) => (dispatch) => {
     dispatch(receivePainting(paintingid));
     dispatch(updateLocationURL('/paint/' + paintingid));
+    document.body.classList.add('no-overflow');
   };
 
   export const removePainting = (paintingid) => (dispatch) => {

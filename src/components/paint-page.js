@@ -228,6 +228,7 @@ class PaintPage extends connect(store)(PageViewElement) {
   _goToOverview() {
     this._context.clearRect(0, 0, this._canvasWidth, this._canvasHeight);
     this._painting = undefined;
+    document.body.classList.remove('no-overflow');
     store.dispatch(updateLocationURL('/'));
   }
 

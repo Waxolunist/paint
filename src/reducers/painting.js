@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
-import { ADD_PAINTING, RECEIVE_PAINTING, REMOVE_PAINTING, TRIGGER } from '../actions/painting.js';
+import { ADD_PAINTING, RECEIVE_PAINTING, REMOVE_PAINTING, TRIGGER, INITIAL_DATA_LOAD } from '../actions/painting.js';
 
 import { createSelector } from 'reselect';
 
@@ -40,6 +40,11 @@ const paint = (state = { paintings: [] }, action) => {
       };
     case TRIGGER:
       return { ...state };
+    case INITIAL_DATA_LOAD:
+      return {
+        ...state,
+        paintings: [...action.paintings]
+      };
     default:
       return state;
   }

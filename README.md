@@ -10,8 +10,7 @@ If you have any issues with the app or want to see new features, just create an 
 
 # Build
 
-    npm run build:static
-    docker build -t waxolunist/paint:latest -t waxolunist/paint:1 .
+    npm run build:static && docker build -t waxolunist/paint:latest -t waxolunist/paint:1 .
     docker save waxolunist/paint:latest | gzip > paint_latest.tar.gz
 
 # Try It
@@ -50,6 +49,11 @@ This app has been tested on following browsers so far:
 
 - [x] mobile support
 - [ ] localforage? for async localstorage support
+- [ ] use more intelligent storage
+- [ ] store thumbnails
+- [ ] load paintings on demand
+- [ ] look at async await syntax
+- [ ] async storage middleware?
 - [x] touch support
 - [ ] disable reload?
 - [x] installable
@@ -60,7 +64,8 @@ This app has been tested on following browsers so far:
 - [ ] about page
 - [x] get licensing of files right
 - [x] pointer polyfill (for firefox esr and iOS - using polymer gestures)
-- [ ] iOS support (add to homescreen, set icon bar colour, set icon background colour)
+- [x] iOS support (add to homescreen, set icon bar colour, set icon background colour)
+- [ ] iOS topBar colour adjustment
 
 # LICENSE
 

@@ -18,12 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 import { updateLocationURL } from './app.js';
 
 import { Painting } from "../model/painting.js";
+import { db } from "../store";
 
 export const ADD_PAINTING = 'ADD_PAINTING';
 export const REMOVE_PAINTING = 'REMOVE_PAINTING';
 export const OPEN_PAINTING = 'OPEN_PAINTING';
 export const RECEIVE_PAINTING = 'RECEIVE_PAINTING';
 export const TRIGGER = 'TRIGGER';
+export const INITIAL_DATA_LOAD = 'INITIAL_DATA_LOAD';
 
 export const addPainting = () => (dispatch) => {
     let painting = new Painting();
@@ -60,4 +62,11 @@ export const addPainting = () => (dispatch) => {
       type: TRIGGER,
       ts
     });
+  };
+
+  export const initializeState = () => {
+    return dispatch => db.paintings.toArray().then(paintings => dispatch({
+      type: INITIAL_DATA_LOAD,
+      paintings
+    }));
   };

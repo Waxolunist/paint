@@ -168,7 +168,7 @@ class PaintPage extends connect(store)(PageViewElement) {
       this._setCanvasGeometry(this._canvas);
       this._setupPointerEvents(this._canvas);
       window.addEventListener('orientationchange', e => {
-        console.log('orientaitonchange');
+        console.log('orientationchange');
         this._setCanvasGeometry(this._canvas, e);
       });
     });

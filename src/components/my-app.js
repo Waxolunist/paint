@@ -24,7 +24,7 @@ import {updateMetadata} from 'pwa-helpers/metadata.js';
 import {store} from '../store.js';
 
 import {updateLocationURL} from '../actions/app.js';
-import {initializeState} from "../actions/painting";
+import {initializeState} from '../actions/painting';
 
 class MyApp extends connect(store)(LitElement) {
   _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
@@ -60,8 +60,8 @@ class MyApp extends connect(store)(LitElement) {
   static get properties() {
     return {
       appTitle: String,
-      _page: String
-    }
+      _page: String,
+    };
   }
 
   constructor() {
@@ -70,7 +70,7 @@ class MyApp extends connect(store)(LitElement) {
     // See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
     setPassiveTouchGestures(true);
     import('../libs/o9n').then(() => {
-      window.o9n.orientation.lock('portrait').catch(err => {
+      window.o9n.orientation.lock('portrait').catch((err) => {
         console.log('Ignore this error: ' + err.message);
       });
     });
@@ -86,7 +86,7 @@ class MyApp extends connect(store)(LitElement) {
       const pageTitle = properties.appTitle + ' - ' + changeList._page;
       updateMetadata({
         title: pageTitle,
-        description: pageTitle
+        description: pageTitle,
       });
     }
   }

@@ -20,61 +20,42 @@ import {
   createStore,
   compose as origCompose,
   applyMiddleware,
-  combineReducers
+  combineReducers,
 } from 'redux';
 import thunk from 'redux-thunk';
-import { lazyReducerEnhancer } from 'pwa-helpers/lazy-reducer-enhancer.js';
+import {lazyReducerEnhancer} from 'pwa-helpers/lazy-reducer-enhancer.js';
 
 import app from './reducers/app.js';
-import paint from './reducers/painting.js'
-import { Painting } from './model/painting.js';
-//import localforage from 'localforage';
-import Dexie from 'dexie';
+import paint from './reducers/painting.js';
+import {REMOVE_PAINTING} from './actions/painting';
+import db, {databaseInit} from './utils/database';
 
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || origCompose;
 
-export const db = new Dexie("PaintingsDB");
-db.version(1).stores({
-  paintings: '++id,strokes,dataURL'
-});
-db.version(2).upgrade(trans => {
-  console.log('upgrade');
-  const paintingsFromLS = localStorage.getItem('paintings');
-  const paintings = JSON.parse(paintingsFromLS).map(p => new Painting(p));
-  localStorage.setItem('paintings', null);
-  return trans.paintings.bulkAdd(paintings);
-});
-db.paintings.mapToClass(Painting);
-db.open()
-  .then(db => {
-    console.log(`DB successfule opened. Version ${db.verno}`);
-    return db;
-  })
-  .catch (function (err) {
-    console.error('Failed to open db: ' + (err.stack || err));
-  });
-
-const localStorageMiddleware = ({getState}) => {
-  return (next) => (action) => {
-      const result = next(action);
-      getState().paint.paintings.forEach(p => db.paintings.put(p));
-      //localforage.setItem('paintings', JSON.stringify(getState().paint.paintings));
-      //localStorage.setItem('paintings', JSON.stringify(getState().paint.paintings));
-      return result;
-  };
+const localStorageMiddleware = ({getState}) => (next) => async (action) => {
+  console.log(action);
+  switch (action.type) {
+    case REMOVE_PAINTING:
+      await db.paintings.delete(action.paintingid);
+      break;
+    default:
+      await db.paintings.bulkPut(getState().paint.paintings);
+      break;
+  }
+  return next(action);
 };
 
-const reHydrateStore = async () => {
-  const paintings = await db.paintings.toArray();
-  return { paint: { paintings }}
-}
-
 export const store = createStore(
-  (state, action) => state,
-  { paint: { paintings: [] }},
-  compose(lazyReducerEnhancer(combineReducers), applyMiddleware(thunk, localStorageMiddleware))
+    (state, action) => state,
+    {paint: {paintings: []}},
+    compose(
+        lazyReducerEnhancer(combineReducers),
+        applyMiddleware(thunk, localStorageMiddleware),
+    ),
 );
 
+databaseInit();
+
 store.addReducers({
-  app, paint
+  app, paint,
 });

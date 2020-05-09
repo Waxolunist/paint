@@ -15,50 +15,50 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
-import { ADD_PAINTING, RECEIVE_PAINTING, REMOVE_PAINTING, TRIGGER, INITIAL_DATA_LOAD } from '../actions/painting.js';
+import {ADD_PAINTING, RECEIVE_PAINTING, REMOVE_PAINTING, TRIGGER, INITIAL_DATA_LOAD} from '../actions/painting.js';
 
-import { createSelector } from 'reselect';
+import {createSelector} from 'reselect';
 
-const paint = (state = { paintings: [] }, action) => {
+const paint = (state = {paintings: []}, action) => {
   switch (action.type) {
     case ADD_PAINTING:
       return {
         ...state,
         paintings: [...state.paintings, action.painting],
-        painting: action.painting
+        painting: action.painting,
       };
     case RECEIVE_PAINTING:
       return {
         ...state,
-        painting: { id: action.paintingid }
+        painting: {id: action.paintingid},
       };
     case REMOVE_PAINTING:
-      state.paintings.splice(state.paintings.findIndex(({ id }) => id == action.paintingid), 1);
+      state.paintings.splice(state.paintings.findIndex(({id}) => id == action.paintingid), 1);
       return {
         ...state,
-        paintings: [...state.paintings]
+        paintings: [...state.paintings],
       };
     case TRIGGER:
-      return { ...state };
+      return {...state};
     case INITIAL_DATA_LOAD:
       return {
         ...state,
-        paintings: [...action.paintings]
+        paintings: [...action.paintings],
       };
     default:
       return state;
   }
-}
+};
 
-const paintingsSelector = state => state.paint && state.paint.paintings;
-const paintingIdSelector = state => state.paint.painting ? state.paint.painting.id : state.paint.paintingid;
+const paintingsSelector = (state) => state.paint && state.paint.paintings;
+const paintingIdSelector = (state) => state.paint.painting ? state.paint.painting.id : state.paint.paintingid;
 
 export const paintingSelector = createSelector(
-  paintingsSelector,
-  paintingIdSelector,
-  (paintings, paintingid) => {
-    return paintings ? paintings.find(({ id }) => id == paintingid) : {};
-  }
+    paintingsSelector,
+    paintingIdSelector,
+    (paintings, paintingid) => {
+      return paintings ? paintings.find(({id}) => id == paintingid) : {};
+    },
 );
 
 export default paint;

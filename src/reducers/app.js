@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
 
 import {
-  UPDATE_PAGE
+  UPDATE_PAGE,
 } from '../actions/app.js';
 
 const app = (state = {}, action) => {
@@ -25,11 +25,11 @@ const app = (state = {}, action) => {
     case UPDATE_PAGE:
       return {
         ...state,
-        page: action.page
+        page: action.page,
       };
     default:
       return state;
   }
-}
+};
 
 export default app;

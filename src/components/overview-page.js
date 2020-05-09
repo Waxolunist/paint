@@ -15,21 +15,21 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
-import { html } from '@polymer/lit-element';
-import { repeat } from 'lit-html/lib/repeat';
-import { PageViewElement } from './page-view-element.js';
+import {html} from '@polymer/lit-element';
+import {repeat} from 'lit-html/lib/repeat';
+import {PageViewElement} from './page-view-element.js';
 
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { store } from '../store.js';
-import { addPainting, openPainting, removePainting } from '../actions/painting';
+import {connect} from 'pwa-helpers/connect-mixin.js';
+import {store} from '../store.js';
+import {addPainting, openPainting, removePainting} from '../actions/painting';
 
-import { AnimatedStyles, ShadowStyles } from './shared-styles.js';
-import { closeIcon, imageIcon } from './my-icons.js';
+import {AnimatedStyles, ShadowStyles} from './shared-styles.js';
+import {closeIcon, imageIcon} from './my-icons.js';
 
-import { innerWidth, outerWidth } from '../utils/geometry.js';
+import {innerWidth, outerWidth} from '../utils/geometry.js';
 
 class OverviewPage extends connect(store)(PageViewElement) {
-  _render({ _overviewWidth, _paintings }) {
+  _render({_overviewWidth, _paintings}) {
     return html`
       ${AnimatedStyles}
       ${ShadowStyles}
@@ -130,12 +130,12 @@ class OverviewPage extends connect(store)(PageViewElement) {
       </style>
       <div id="wrapper">
         <div class="overview" id="overview" style="width: ${_overviewWidth}px;">
-          <div class="painting add shadow animated elevate" on-click="${e => this._addPainting()}">
+          <div class="painting add shadow animated elevate" on-click="${(e) => this._addPainting()}">
             <div class="add">${imageIcon}</div>
           </div>
           ${repeat(_paintings, (item, index) => html`
-            <div class="painting shadow animated elevate" on-click="${e => this._openPainting(item.id)}">
-              <div class="close shadow animated" on-click="${e => this._removePainting(e, item.id)}">${closeIcon}</div>
+            <div class="painting shadow animated elevate" on-click="${(e) => this._openPainting(item.id)}">
+              <div class="close shadow animated" on-click="${(e) => this._removePainting(e, item.id)}">${closeIcon}</div>
               <img src="${item.dataURL}" />
             </div>
           `)}
@@ -147,13 +147,13 @@ class OverviewPage extends connect(store)(PageViewElement) {
   static get properties() {
     return {
       _overviewWidth: Number,
-      _paintings: Array
+      _paintings: Array,
     };
   }
 
   ready() {
     super.ready();
-    window.addEventListener('resize', e => this._calcWidth());
+    window.addEventListener('resize', (e) => this._calcWidth());
   }
 
   _firstRendered() {
@@ -166,9 +166,9 @@ class OverviewPage extends connect(store)(PageViewElement) {
   }
 
   _calcWidth() {
-    let maxWidth = innerWidth(this.shadowRoot.getElementById('wrapper'));
-    let paintingWidth = outerWidth(this.shadowRoot.querySelector('.painting'));
-    let divsPerRow = Math.floor(maxWidth / paintingWidth);
+    const maxWidth = innerWidth(this.shadowRoot.getElementById('wrapper'));
+    const paintingWidth = outerWidth(this.shadowRoot.querySelector('.painting'));
+    const divsPerRow = Math.floor(maxWidth / paintingWidth);
     this._overviewWidth = paintingWidth * divsPerRow;
   }
 
@@ -184,6 +184,6 @@ class OverviewPage extends connect(store)(PageViewElement) {
     event.stopPropagation();
     store.dispatch(removePainting(paintingid));
   }
- }
+}
 
 window.customElements.define('overview-page', OverviewPage);

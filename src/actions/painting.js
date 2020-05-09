@@ -15,10 +15,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
-import { updateLocationURL } from './app.js';
+import {updateLocationURL} from './app.js';
 
-import { Painting } from "../model/painting.js";
-import { db } from "../store";
+import {Painting} from '../model/painting.js';
+import db from '../utils/database';
 
 export const ADD_PAINTING = 'ADD_PAINTING';
 export const REMOVE_PAINTING = 'REMOVE_PAINTING';
@@ -28,45 +28,45 @@ export const TRIGGER = 'TRIGGER';
 export const INITIAL_DATA_LOAD = 'INITIAL_DATA_LOAD';
 
 export const addPainting = () => (dispatch) => {
-    let painting = new Painting();
-    dispatch({
-      type: ADD_PAINTING,
-      painting
-    });
-    dispatch(openPainting(painting.id));
-  };
-  
-  export const receivePainting = (paintingid) => (dispatch) => {
-    dispatch({
-      type: RECEIVE_PAINTING,
-      paintingid
-    });
-  };
-  
-  export const openPainting = (paintingid) => (dispatch) => {
-    dispatch(receivePainting(paintingid));
-    dispatch(updateLocationURL('/paint/' + paintingid));
-    document.body.classList.add('no-overflow');
-  };
+  const painting = new Painting();
+  dispatch({
+    type: ADD_PAINTING,
+    painting,
+  });
+  dispatch(openPainting(painting.id));
+};
 
-  export const removePainting = (paintingid) => (dispatch) => {
-    dispatch({
-      type: REMOVE_PAINTING,
-      paintingid
-    });
-  };
+export const receivePainting = (paintingid) => (dispatch) => {
+  dispatch({
+    type: RECEIVE_PAINTING,
+    paintingid,
+  });
+};
 
-  export const trigger = () => (dispatch) => {
-    let ts = Date.now();
-    dispatch({
-      type: TRIGGER,
-      ts
-    });
-  };
+export const openPainting = (paintingid) => (dispatch) => {
+  dispatch(receivePainting(paintingid));
+  dispatch(updateLocationURL('/paint/' + paintingid));
+  document.body.classList.add('no-overflow');
+};
 
-  export const initializeState = () => {
-    return dispatch => db.paintings.toArray().then(paintings => dispatch({
-      type: INITIAL_DATA_LOAD,
-      paintings
-    }));
-  };
+export const removePainting = (paintingid) => (dispatch) => {
+  dispatch({
+    type: REMOVE_PAINTING,
+    paintingid,
+  });
+};
+
+export const trigger = () => (dispatch) => {
+  const ts = Date.now();
+  dispatch({
+    type: TRIGGER,
+    ts,
+  });
+};
+
+export const initializeState = () => {
+  return (dispatch) => db.paintings.toArray().then((paintings) => dispatch({
+    type: INITIAL_DATA_LOAD,
+    paintings,
+  }));
+};

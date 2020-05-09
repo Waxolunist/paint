@@ -26,13 +26,13 @@ export const navigate = (location) => (dispatch) => {
 };
 
 const loadPage = (page, detailId) => async (dispatch) => {
-  switch(page) {
+  switch (page) {
     case 'overview':
       await import('../components/overview-page.js');
       break;
     case 'paint':
       await import('../components/paint-page.js');
-      let { receivePainting } = await import('./painting.js');
+      const {receivePainting} = await import('./painting.js');
       dispatch(receivePainting(detailId));
       break;
     default:
@@ -41,17 +41,17 @@ const loadPage = (page, detailId) => async (dispatch) => {
   }
 
   dispatch(updatePage(page));
-}
+};
 
 const updatePage = (page) => {
   return {
     type: UPDATE_PAGE,
-    page
+    page,
   };
-}
+};
 
 
 export const updateLocationURL = (url) => (dispatch, getState) => {
   window.history.pushState({}, '', url);
   dispatch(navigate(window.location));
-}
+};

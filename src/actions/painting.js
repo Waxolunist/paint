@@ -18,14 +18,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 import {updateLocationURL} from './app.js';
 
 import {Painting} from '../model/painting.js';
-import db from '../utils/database';
+import database from '../utils/database';
 
 export const ADD_PAINTING = 'ADD_PAINTING';
 export const REMOVE_PAINTING = 'REMOVE_PAINTING';
+export const SHARE_PAINTING = 'SHARE_PAINTING';
 export const OPEN_PAINTING = 'OPEN_PAINTING';
 export const RECEIVE_PAINTING = 'RECEIVE_PAINTING';
 export const TRIGGER = 'TRIGGER';
 export const INITIAL_DATA_LOAD = 'INITIAL_DATA_LOAD';
+export const UNSELECT_PAINTING = 'UNSELECT_PAINTING';
 
 export const addPainting = () => (dispatch) => {
   const painting = new Painting();
@@ -36,22 +38,31 @@ export const addPainting = () => (dispatch) => {
   dispatch(openPainting(painting.id));
 };
 
-export const receivePainting = (paintingid) => (dispatch) => {
+export const receivePainting = (paintingid) => async (dispatch) => {
+  const db = await database();
+  const painting = await db.paintings.get(parseInt(paintingid));
   dispatch({
     type: RECEIVE_PAINTING,
     paintingid,
+    painting,
   });
 };
 
 export const openPainting = (paintingid) => (dispatch) => {
   dispatch(receivePainting(paintingid));
   dispatch(updateLocationURL('/paint/' + paintingid));
-  document.body.classList.add('no-overflow');
 };
 
 export const removePainting = (paintingid) => (dispatch) => {
   dispatch({
     type: REMOVE_PAINTING,
+    paintingid,
+  });
+};
+
+export const sharePainting = (paintingid) => (dispatch) => {
+  dispatch({
+    type: SHARE_PAINTING,
     paintingid,
   });
 };
@@ -64,9 +75,20 @@ export const trigger = () => (dispatch) => {
   });
 };
 
+export const unselectPainting = () => (dispacth) => {
+  dispacth({
+    type: UNSELECT_PAINTING,
+  });
+};
+
 export const initializeState = () => {
-  return (dispatch) => db.paintings.toArray().then((paintings) => dispatch({
-    type: INITIAL_DATA_LOAD,
-    paintings,
-  }));
+  return async (dispatch) => {
+    const db = await database();
+    const paintings = await db.paintings.toArray((arr) =>
+      arr.map(({id, dataURL}) => ({id, dataURL})));
+    dispatch({
+      type: INITIAL_DATA_LOAD,
+      paintings,
+    });
+  };
 };

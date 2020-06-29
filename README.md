@@ -67,6 +67,11 @@ This app has been tested on following browsers so far:
 - [x] iOS support (add to homescreen, set icon bar colour, set icon background colour)
 - [ ] iOS topBar colour adjustment
 
+# Development
+
+For best developing experience you will need a certificate. This will be created with
+`mkcert`. [https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/][see ``````https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/] 
+
 # LICENSE
 
 Copyright (C) 2018  Christian Sterzl <christian.sterzl@gmail.com>

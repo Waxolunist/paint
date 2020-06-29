@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 import {
   createStore,
-  compose as origCompose,
+  compose,
   applyMiddleware,
   combineReducers,
 } from 'redux';
@@ -28,34 +28,39 @@ import {lazyReducerEnhancer} from 'pwa-helpers/lazy-reducer-enhancer.js';
 import app from './reducers/app.js';
 import paint from './reducers/painting.js';
 import {REMOVE_PAINTING} from './actions/painting';
-import db, {databaseInit} from './utils/database';
-
-const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || origCompose;
+import database from './utils/database';
+import {paintingSelector} from './reducers/painting';
 
 const localStorageMiddleware = ({getState}) => (next) => async (action) => {
   console.log(action);
+  const db = await database();
   switch (action.type) {
     case REMOVE_PAINTING:
       await db.paintings.delete(action.paintingid);
       break;
     default:
-      await db.paintings.bulkPut(getState().paint.paintings);
+      const paintingToStore = paintingSelector(getState());
+      if (paintingToStore && paintingToStore.strokes) {
+        await db.paintings.put(paintingToStore);
+      }
       break;
   }
   return next(action);
 };
 
-export const store = createStore(
+
+const store = createStore(
     (state, action) => state,
     {paint: {paintings: []}},
-    compose(
+    (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose)(
         lazyReducerEnhancer(combineReducers),
         applyMiddleware(thunk, localStorageMiddleware),
     ),
 );
 
-databaseInit();
-
 store.addReducers({
   app, paint,
 });
+
+export default store;
+

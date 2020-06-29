@@ -21,7 +21,7 @@ import {connect} from 'pwa-helpers/connect-mixin.js';
 import {installRouter} from 'pwa-helpers/router.js';
 import {updateMetadata} from 'pwa-helpers/metadata.js';
 
-import {store} from '../store.js';
+import store from '../store.js';
 
 import {updateLocationURL} from '../actions/app.js';
 import {initializeState} from '../actions/painting';
@@ -78,7 +78,8 @@ class MyApp extends connect(store)(LitElement) {
 
   _firstRendered() {
     store.dispatch(initializeState());
-    installRouter((location) => store.dispatch(updateLocationURL(window.location.pathname)));
+    installRouter((location) =>
+      store.dispatch(updateLocationURL(window.location.pathname)));
   }
 
   _didRender(properties, changeList) {

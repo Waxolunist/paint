@@ -15,17 +15,24 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
-import { LitElement } from '@polymer/lit-element';
+import {LitElement} from '@polymer/lit-element';
 
 export class PageViewElement extends LitElement {
   // Only render this page if it's actually visible.
+  /**
+   * @param props
+   * @param changedProps
+   * @param old
+   * @return {*}
+   * @private
+   */
   _shouldRender(props, changedProps, old) {
     return props.active;
   }
 
   static get properties() {
     return {
-      active: Boolean
-    }
+      active: Boolean,
+    };
   }
 }

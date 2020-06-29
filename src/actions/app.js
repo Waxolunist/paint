@@ -28,9 +28,13 @@ export const navigate = (location) => (dispatch) => {
 const loadPage = (page, detailId) => async (dispatch) => {
   switch (page) {
     case 'overview':
+      // TODO move to component after litelement update and have clearer lifecycle events
+      document.body.classList.remove('no-overflow');
       await import('../components/overview-page.js');
       break;
     case 'paint':
+      // TODO move to component after litelement update and have clearer lifecycle events
+      document.body.classList.add('no-overflow');
       await import('../components/paint-page.js');
       const {receivePainting} = await import('./painting.js');
       dispatch(receivePainting(detailId));

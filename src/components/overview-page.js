@@ -20,13 +20,15 @@ import {repeat} from 'lit-html/lib/repeat';
 import {PageViewElement} from './page-view-element.js';
 
 import {connect} from 'pwa-helpers/connect-mixin.js';
-import {store} from '../store.js';
-import {addPainting, openPainting, removePainting} from '../actions/painting';
+import store from '../store.js';
+import {addPainting, openPainting, removePainting, sharePainting} from '../actions/painting';
 
 import {AnimatedStyles, ShadowStyles} from './shared-styles.js';
 import {closeIcon, imageIcon} from './my-icons.js';
 
 import {innerWidth, outerWidth} from '../utils/geometry.js';
+import {shareIcon} from './my-icons';
+import {urltoFile} from '../utils/files';
 
 class OverviewPage extends connect(store)(PageViewElement) {
   _render({_overviewWidth, _paintings}) {
@@ -75,24 +77,39 @@ class OverviewPage extends connect(store)(PageViewElement) {
           height: 100%;
         }
 
-        .painting > .close {
+        .painting > .icon {
           width: calc(var(--icon-size) * 1px);
           height: calc(var(--icon-size) * 1px);
           border-radius: calc(var(--icon-size) * 1px);
           position: absolute;
-          top: calc(var(--icon-size) / 2 * -1px);
           left: calc((var(--painting-width) / var(--painting-scalefactor) - var(--icon-size) / 2) * 1px);
           background-color: white;
           transition-property: transform;
           transform: scale(1);
           will-change: transform;
+          display: flex;
+          align-items: flex-start;
+          justify-content: center;
         }
 
-        .painting > .close:hover {
+        .painting > .icon.close {
+            top: calc(var(--icon-size) / 2 * -1px);
+        }
+        
+        .painting > .icon.share {
+            top: calc((var(--icon-size) / 2 * 1px) + 10px);
+        }
+        
+        .painting > .icon.share > svg {
+          width: calc(var(--icon-size) * 1px - 5px);
+          height: calc(var(--icon-size) * 1px - 5px);
+        }
+        
+        .painting > .icon:hover {
           transform: scale(1.2);
         }
 
-        .painting > .close > svg {
+        .painting > .icon > svg {
           width: calc(var(--icon-size) * 1px);
           height: calc(var(--icon-size) * 1px);
         }
@@ -135,7 +152,10 @@ class OverviewPage extends connect(store)(PageViewElement) {
           </div>
           ${repeat(_paintings, (item, index) => html`
             <div class="painting shadow animated elevate" on-click="${(e) => this._openPainting(item.id)}">
-              <div class="close shadow animated" on-click="${(e) => this._removePainting(e, item.id)}">${closeIcon}</div>
+              <div class="icon close shadow animated" on-click="${(e) => this._removePainting(e, item.id)}">${closeIcon}</div>
+              ${navigator.share ?
+                  html`<div class="icon share shadow animated" on-click="${(e) => this._sharePainting(e, item.id)}">${shareIcon}</div>` :
+                  html``}
               <img src="${item.dataURL}" />
             </div>
           `)}
@@ -183,6 +203,26 @@ class OverviewPage extends connect(store)(PageViewElement) {
   _removePainting(event, paintingid) {
     event.stopPropagation();
     store.dispatch(removePainting(paintingid));
+  }
+
+  async _sharePainting(event, paintingid) {
+    event.stopPropagation();
+    const painting = store.getState().paint.paintings.find((p) => p.id === paintingid);
+    if (painting) {
+      const file = await urltoFile(painting.dataURL, `paint-${paintingid}.png`, 'image/png');
+      if (navigator.canShare) {
+        try {
+          await navigator.share({
+            title: 'Paint for Kids',
+            text: 'Schau mal, Mami!',
+            files: [file],
+          });
+          console.log('Successful share');
+        } catch (err) {
+          console.log('Error sharing', err);
+        }
+      }
+    }
   }
 }
 

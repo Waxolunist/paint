@@ -15,30 +15,32 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
-import { html } from '@polymer/lit-element';
-import { repeat } from 'lit-html/lib/repeat';
-import { PageViewElement } from './page-view-element.js';
+import {html} from '@polymer/lit-element';
+import {repeat} from 'lit-html/lib/repeat';
+import {PageViewElement} from './page-view-element.js';
 
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { store } from '../store.js';
+import {connect} from 'pwa-helpers/connect-mixin.js';
+import store from '../store.js';
 
-import { paintingSelector } from '../reducers/painting.js';
-import { trigger } from '../actions/painting.js';
+import {paintingSelector} from '../reducers/painting.js';
+import {trigger} from '../actions/painting.js';
 
-import { arrowBack } from './my-icons.js';
-import { updateLocationURL } from '../actions/app.js';
+import {arrowBack} from './my-icons.js';
+import {updateLocationURL} from '../actions/app.js';
 
-import { AnimatedStyles, ShadowStyles } from './shared-styles.js';
+import {AnimatedStyles, ShadowStyles} from './shared-styles.js';
 
-import { htmlcolors_hsl } from '../model/htmlcolors.js';
-import { waitForId } from '../utils/elements.js';
-import { isLandscape } from '../utils/geometry.js';
-import { waitTillTrue } from '../utils/promises.js';
-import { Stroke } from '../model/painting.js';
+import {htmlcolors_hsl} from '../model/htmlcolors.js';
+import {waitForId} from '../utils/elements.js';
+import {isLandscape} from '../utils/geometry.js';
+import {waitTillTrue} from '../utils/promises.js';
+import {Stroke} from '../model/painting.js';
+import database from '../utils/database';
+import {unselectPainting} from '../actions/painting';
 
 class PaintPage extends connect(store)(PageViewElement) {
-  _render({ _painting, _color, _canvasWidth, _canvasHeight }) {
-    console.log('render: ' + this._canvasWidth + ':' + this._canvasHeight)
+  _render({_painting, _color, _canvasWidth, _canvasHeight}) {
+    console.log('render: ' + this._canvasWidth + ':' + this._canvasHeight);
     return html`
       ${AnimatedStyles}
       ${ShadowStyles}
@@ -132,13 +134,13 @@ class PaintPage extends connect(store)(PageViewElement) {
       </style>
       <div class="paint">
         <div class="toolbar">
-          <div class="icon animated" on-click="${e => this._goToOverview()}">
+          <div class="icon animated" on-click="${(e) => this._goToOverview()}">
             ${arrowBack}
           </div>
           <div class="colors">
-          ${repeat(htmlcolors_hsl, (item, index) => 
-          html`
-            <div class="colorchooser animated" on-click="${e => this._setColor(item)}" selected?="${item === _color}">
+          ${repeat(htmlcolors_hsl, (item, index) =>
+    html`
+            <div class="colorchooser animated" on-click="${(e) => this._setColor(item)}" selected?="${item === _color}">
               <div style="background-color: ${item};" class="shadow elevate"></div>
             </div>
           `)}
@@ -156,18 +158,18 @@ class PaintPage extends connect(store)(PageViewElement) {
       _painting: Object,
       _color: String,
       _canvasWidth: Number,
-      _canvasHeight: Number
-    }
+      _canvasHeight: Number,
+    };
   }
 
   _firstRendered() {
     super._firstRendered();
-    waitForId(this.shadowRoot, 'canvas').then(canvas => {
+    waitForId(this.shadowRoot, 'canvas').then((canvas) => {
       this._canvas = canvas;
       this._context = this._canvas.getContext('2d');
       this._setCanvasGeometry(this._canvas);
       this._setupPointerEvents(this._canvas);
-      window.addEventListener('orientationchange', e => {
+      window.addEventListener('orientationchange', (e) => {
         console.log('orientationchange');
         this._setCanvasGeometry(this._canvas, e);
       });
@@ -175,60 +177,63 @@ class PaintPage extends connect(store)(PageViewElement) {
   }
 
   _didRender(props, changedProps, prevProps) {
-    if(changedProps._painting) {
-      waitForId(this.shadowRoot, 'canvas').then(canvas => {
+    if (changedProps._painting) {
+      waitForId(this.shadowRoot, 'canvas').then((canvas) => {
         this._canvas = canvas;
-        this._context = this._canvas.getContext("2d");
+        this._context = this._canvas.getContext('2d');
         this._context.clearRect(0, 0, this._canvasWidth, this._canvasHeight);
-        this._painting.draw(this._canvas);
+        setTimeout(() => {
+          if (this._painting && this._painting.draw) {
+            this._painting.draw(this._canvas);
+          }
+        }, 100);
         this._color = 'hsl(0, 0%, 0%)';
       });
     }
     super._didRender(props, changedProps, prevProps);
   }
-  
+
   _stateChanged(state) {
     this._painting = paintingSelector(state);
   }
 
   _shouldPropertyChange(property, value, old) {
-    if(property === '_canvasWidth' || property === '_canvasHeight') {
+    if (property === '_canvasWidth' || property === '_canvasHeight') {
       console.log(property + ' ' + old + ' -> ' + value);
       return true;
     }
-    
+
     return super._shouldPropertyChange(property, value, old);
   }
 
   async _setCanvasGeometry(canvas, event) {
     console.log(event);
-    let paintingarea = this.shadowRoot.getElementById('paintingarea');
+    const paintingarea = this.shadowRoot.getElementById('paintingarea');
 
     await waitTillTrue(() => paintingarea.clientWidth && paintingarea.clientHeight);
     console.log('_setCanvasGeometry start ' + this._canvasWidth + ':' + this._canvasHeight);
-    if(isLandscape(paintingarea.clientWidth, paintingarea.clientHeight)) {
+    if (isLandscape(paintingarea.clientWidth, paintingarea.clientHeight)) {
       console.log('landscape');
-      let areaWidth = paintingarea.clientWidth;
-      let areaHeight = paintingarea.clientHeight;
-      let scale = Math.min(areaWidth/297, areaHeight/210);
+      const areaWidth = paintingarea.clientWidth;
+      const areaHeight = paintingarea.clientHeight;
+      const scale = Math.min(areaWidth/297, areaHeight/210);
       this._canvasHeight = 210 * scale;
       this._canvasWidth = 297 * scale;
     } else {
       console.log('portrait');
-      let areaWidth = paintingarea.clientWidth;
-      let areaHeight = paintingarea.clientHeight;
-      let scale = Math.min(areaWidth/210, areaHeight/297);
+      const areaWidth = paintingarea.clientWidth;
+      const areaHeight = paintingarea.clientHeight;
+      const scale = Math.min(areaWidth/210, areaHeight/297);
       this._canvasHeight = 297 * scale;
       this._canvasWidth = 210 * scale;
     }
     console.log('_setCanvasGeometry end ' + this._canvasWidth + ':' + this._canvasHeight);
-
   }
 
   _goToOverview() {
     this._context.clearRect(0, 0, this._canvasWidth, this._canvasHeight);
     this._painting = undefined;
-    document.body.classList.remove('no-overflow');
+    store.dispatch(unselectPainting());
     store.dispatch(updateLocationURL('/'));
   }
 
@@ -237,22 +242,21 @@ class PaintPage extends connect(store)(PageViewElement) {
   }
 
   _setupPointerEvents(canvas) {
-      this._canvas.addEventListener('touchstart', e => this._pointerDown(e));
-      this._canvas.addEventListener('touchend', e => this._pointerUp(e));
-      this._canvas.addEventListener('touchcancel', e => this._pointerUp(e));
-      this._canvas.addEventListener('touchmove', e => this._pointerMove(e));
-      this._canvas.addEventListener('mousedown', e => this._pointerDown(e));
-      this._canvas.addEventListener('mouseup', e => this._pointerUp(e));
-      this._canvas.addEventListener('mousemove', e => this._pointerMove(e));
-      
+    this._canvas.addEventListener('touchstart', (e) => this._pointerDown(e));
+    this._canvas.addEventListener('touchend', (e) => this._pointerUp(e));
+    this._canvas.addEventListener('touchcancel', (e) => this._pointerUp(e));
+    this._canvas.addEventListener('touchmove', (e) => this._pointerMove(e));
+    this._canvas.addEventListener('mousedown', (e) => this._pointerDown(e));
+    this._canvas.addEventListener('mouseup', (e) => this._pointerUp(e));
+    this._canvas.addEventListener('mousemove', (e) => this._pointerMove(e));
   }
-  
+
   _pointerDown(event) {
     event.preventDefault();
-    if(!this._paint) {
+    if (!this._paint) {
       this._paint = true;
 
-      var points = this._extractPoint(event);
+      const points = this._extractPoint(event);
 
       this._currentStroke = new Stroke(this._color);
       this._currentStroke.addPoint(points);
@@ -266,45 +270,44 @@ class PaintPage extends connect(store)(PageViewElement) {
   }
 
   _pointerMove(event) {
-    if(this._paint) {
+    if (this._paint) {
       event.preventDefault();
 
-      var points = this._extractPoint(event);
+      const points = this._extractPoint(event);
       this._currentStroke.addPoint(points);
 
-      points.forEach(p => {
+      points.forEach((p) => {
         this._context.lineTo(p.x, p.y);
         this._context.stroke();
       });
-      
     }
   }
 
   _pointerUp(event) {
     event.preventDefault();
-    if(this._paint) {
+    if (this._paint) {
       this._paint = false;
       this._painting.addStroke(this._currentStroke);
       setTimeout(() => {
-        this._painting.dataURL = this._canvas.toDataURL("image/png");
+        this._painting.dataURL = this._canvas.toDataURL('image/png');
         store.dispatch(trigger());
       });
     }
   }
 
   _extractPoint(event) {
-    if(event.type.startsWith('mouse')) {
+    if (event.type.startsWith('mouse')) {
       return [{
         x: event.clientX - this._canvas.offsetLeft,
-        y: event.clientY - this._canvas.offsetTop
+        y: event.clientY - this._canvas.offsetTop,
       }];
     } else {
-      return Array.from(event.changedTouches).map(t => { 
-          return {
-            x: t.clientX - this._canvas.offsetLeft,
-            y: t.clientY - this._canvas.offsetTop
-          }
-        }
+      return Array.from(event.changedTouches).map((t) => {
+        return {
+          x: t.clientX - this._canvas.offsetLeft,
+          y: t.clientY - this._canvas.offsetTop,
+        };
+      },
       );
     }
   }

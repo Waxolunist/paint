@@ -11,7 +11,7 @@
     "build": "npm run build:prpl-server && npm run build:static",
     "build:prpl-server": "polymer build --auto-base-path && gulp prpl-server",
     "build:static": "polymer build --auto-base-path",
-    "serve:prpl-server": "prpl-server --root build --host 0.0.0.0 --config build/polymer.json",
+    "serve:prpl-server": "prpl-server --root build --host localhost --config build/polymer.json",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
@@ -20,7 +20,7 @@
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000",
     "deploy": "gcloud app deploy server/app.yaml",
     "postinstall": "npm run build:prpl-server",
-    "dev": "polymer serve --hostname 0.0.0.0",
+    "dev": "polymer serve --hostname localhost -P https --cert v-collaborate.com+4.pem --key v-collaborate.com+4-key.pem",
     "lint": "eslint --ext .js src"
   },
   "dependencies": {

@@ -21,7 +21,8 @@
     "deploy": "gcloud app deploy server/app.yaml",
     "postinstall": "npm run build:prpl-server",
     "dev": "polymer serve --hostname localhost -P https --cert v-collaborate.com+4.pem --key v-collaborate.com+4-key.pem",
-    "lint": "eslint --ext .js src"
+    "lint": "eslint --ext .js src",
+    "jsdoc": "jsdoc -c jsdoc.conf.json --verbose"
   },
   "dependencies": {
     "@polymer/lit-element": "^0.5.0",
@@ -34,15 +35,20 @@
     "reselect": "^4.0.0"
   },
   "devDependencies": {
+    "@zakkudo/jsdoc-redux-plugin": "0.0.8",
     "axe-core": "^3.5.3",
+    "better-docs": "^2.0.1",
     "chai": "^4.2.0",
     "del": "^3.0.0",
-    "eslint": "^7.0.0",
+    "documentation": "^13.0.1",
+    "eslint": "^7.3.1",
     "eslint-config-google": "^0.14.0",
     "gulp": "^4.0.0",
     "gulp-rename": "^1.2.3",
     "gulp-replace": "^1.0.0",
     "http2-push-manifest": "^1.0.1",
+    "jsdoc": "^3.6.4",
+    "kis-jsdoc-plugin": "^1.4.4",
     "mocha": "^5.2.0",
     "pixelmatch": "^4.0.2",
     "polymer-cli": "^1.9.11",

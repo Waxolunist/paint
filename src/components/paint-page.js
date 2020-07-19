@@ -39,7 +39,7 @@ import database from '../utils/database';
 import {unselectPainting} from '../actions/painting';
 
 class PaintPage extends connect(store)(PageViewElement) {
-  _render({_painting, _color, _canvasWidth, _canvasHeight}) {
+  _render({_color, _canvasWidth, _canvasHeight}) {
     console.log('render: ' + this._canvasWidth + ':' + this._canvasHeight);
     return html`
       ${AnimatedStyles}
@@ -177,6 +177,7 @@ class PaintPage extends connect(store)(PageViewElement) {
   }
 
   _didRender(props, changedProps, prevProps) {
+    console.log(changedProps);
     if (changedProps._painting) {
       waitForId(this.shadowRoot, 'canvas').then((canvas) => {
         this._canvas = canvas;
@@ -217,15 +218,15 @@ class PaintPage extends connect(store)(PageViewElement) {
       const areaWidth = paintingarea.clientWidth;
       const areaHeight = paintingarea.clientHeight;
       const scale = Math.min(areaWidth/297, areaHeight/210);
-      this._canvasHeight = 210 * scale;
-      this._canvasWidth = 297 * scale;
+      this._canvasHeight = (210 * scale) | 0;
+      this._canvasWidth = (297 * scale) | 0;
     } else {
       console.log('portrait');
       const areaWidth = paintingarea.clientWidth;
       const areaHeight = paintingarea.clientHeight;
       const scale = Math.min(areaWidth/210, areaHeight/297);
-      this._canvasHeight = 297 * scale;
-      this._canvasWidth = 210 * scale;
+      this._canvasHeight = (297 * scale) | 0;
+      this._canvasWidth = (210 * scale) | 0;
     }
     console.log('_setCanvasGeometry end ' + this._canvasWidth + ':' + this._canvasHeight);
   }

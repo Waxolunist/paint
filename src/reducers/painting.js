@@ -1,26 +1,45 @@
+/** @typedef {import("../model/painting")} */
 /**
-@license
-Copyright (C) 2018  Christian Sterzl <christian.sterzl@gmail.com>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
-*/
-import {ADD_PAINTING, RECEIVE_PAINTING, REMOVE_PAINTING, TRIGGER, INITIAL_DATA_LOAD} from '../actions/painting.js';
+ * Reducers for scope painting.
+ *
+ * @redux
+ * @reduxActionScope painting
+ * @module paintingReducers
+ *
+ */
+import {
+  ADD_PAINTING,
+  RECEIVE_PAINTING,
+  REMOVE_PAINTING,
+  TRIGGER,
+  INITIAL_DATA_LOAD} from '../actions/painting.js';
 
 import {createSelector} from 'reselect';
 import {SHARE_PAINTING, UNSELECT_PAINTING} from '../actions/painting';
-import {urltoFile} from '../utils/files';
 
+/**
+ * @typedef {Object} paintingState
+ * @property {Painting[]} paintings the page to open
+ * @property {Painting | undefined} painting current painting
+ */
+
+/**
+ * @typedef {Object} paintingAction
+ * @property {Painting | undefined} painting current painting
+ * @property {number | string | undefined} paintingId id of the current painting
+ */
+
+/**
+ * Paintings reducer.
+ *
+ * @name paint
+ * @method
+ * @redux
+ * @reduxReducer
+ * @param {paintingState} state
+ * @param {paintingAction} action
+ * @return {paintingState}
+ */
 const paint = (state = {paintings: []}, action) => {
   switch (action.type) {
     case ADD_PAINTING:
@@ -31,16 +50,16 @@ const paint = (state = {paintings: []}, action) => {
       };
     case RECEIVE_PAINTING:
       if (action.painting) {
-        removePainting(state.paintings, action.paintingid);
+        removePainting(state.paintings, action.paintingId);
         state.paintings.push(action.painting);
         state.paintings.sort(({id: a}, {id: b}) => a - b);
       }
       return {
         ...state,
-        painting: {id: action.paintingid},
+        painting: {id: action.paintingId},
       };
     case REMOVE_PAINTING:
-      removePainting(state.paintings, action.paintingid);
+      removePainting(state.paintings, action.paintingId);
       return {
         ...state,
         paintings: [...state.paintings],
@@ -48,7 +67,7 @@ const paint = (state = {paintings: []}, action) => {
     case TRIGGER:
       return {...state};
     case SHARE_PAINTING:
-      sharePainting(state, action.paintingid);
+      sharePainting(state, action.paintingId);
       return {...state};
     case INITIAL_DATA_LOAD:
       return {
@@ -65,23 +84,24 @@ const paint = (state = {paintings: []}, action) => {
   }
 };
 
-const paintingsSelector = (state) => state.paint && state.paint.paintings;
-const paintingIdSelector = (state) => state.paint.painting ? state.paint.painting.id : state.paint.paintingid;
+const paintingsSelector = (state) => state.paint?.paintings;
+const paintingIdSelector = (state) => state.paint.painting ? state.paint.painting.id : state.paint.paintingId;
 
 export const paintingSelector = createSelector(
     paintingsSelector,
     paintingIdSelector,
-    (paintings, paintingid) => {
-      return paintings ? paintings.find(({id}) => id == paintingid) : {};
+    (paintings, paintingId) => {
+      return paintings ? paintings.find(({id}) => id == paintingId) : {};
     },
 );
 
-const removePainting = (paintings, paintingid) => paintings.splice(paintings.findIndex(({id}) => id == paintingid), 1);
+const removePainting = (paintings, paintingId) =>
+  paintings.splice(paintings.findIndex(({id}) => id == paintingId), 1);
 
-const sharePainting = (state, paintingid) => {
-  const painting = state.paintings.find((p) => p.id === paintingid);
+const sharePainting = (state, paintingId) => {
+  const painting = state.paintings.find((p) => p.id === paintingId);
   if (painting) {
-    // const file = urltoFile(painting.dataURL, `paint-${paintingid}.png`, 'image/png');
+    // const file = urltoFile(painting.dataURL, `paint-${paintingId}.png`, 'image/png');
     if (navigator.share) {
       navigator.share({
         title: 'Paint for Kids',

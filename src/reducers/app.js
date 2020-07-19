@@ -1,25 +1,36 @@
 /**
-@license
-Copyright (C) 2018  Christian Sterzl <christian.sterzl@gmail.com>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
-*/
-
+ * Reducers for scope app.
+ *
+ * @redux
+ * @reduxActionScope app
+ * @module appReducers
+ *
+ */
 import {
   UPDATE_PAGE,
 } from '../actions/app.js';
 
+/**
+ * @typedef {Object} appState
+ * @property {String} page the page to open
+ */
+
+/**
+ * @typedef {Object} appAction
+ * @property {String} page the page to open
+ */
+
+/**
+ * Application reducer.
+ *
+ * @name app
+ * @method
+ * @redux
+ * @reduxReducer
+ * @param {appState} state
+ * @param {appAction} action
+ * @return {appState}
+ */
 const app = (state = {}, action) => {
   switch (action.type) {
     case UPDATE_PAGE:

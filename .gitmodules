@@ -1,0 +1,3 @@
+[submodule "jsdoc-template"]
+	path = jsdoc-template
+	url = git@github.com:braintree/jsdoc-template.git

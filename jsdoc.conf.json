@@ -1,0 +1,28 @@
+{
+  "tags": {
+    "allowUnknownTags": false,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "source": {
+    "include": ["src", "node_modules/redux-thunk"],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "plugins": [
+    "plugins/markdown",
+    "@zakkudo/jsdoc-redux-plugin"
+  ],
+  "templates": {
+    "referenceTitle": "Paint",
+    "disableSort": false,
+    "collapse": true
+  },
+  "opts": {
+    "destination": "docs",
+    "recurse": true,
+    "private": true,
+    "readme": "README.md",
+    "template": "jsdoc-template",
+    "encoding": "utf8"
+  }
+}

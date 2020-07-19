@@ -1,20 +1,3 @@
-/**
-@license
-Copyright (C) 2018  Christian Sterzl <christian.sterzl@gmail.com>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
-*/
 let IDSEQ = 0;
 if (localStorage.getItem('IDSEQ') !== null) {
   IDSEQ = parseInt(localStorage.getItem('IDSEQ'));
@@ -25,6 +8,14 @@ const nextSeq = () => {
   return IDSEQ;
 };
 
+// eslint-disable-next-line valid-jsdoc
+/**
+ * Class Painting
+ * @class Painting
+ * @typedef Painting
+ * @property {number} id
+ * @property {string} dataURL
+ */
 export class Painting {
   constructor(obj) {
     if (obj) {
@@ -32,6 +23,7 @@ export class Painting {
     } else {
       this.id = nextSeq();
       this.strokes = [];
+      // eslint-disable-next-line max-len
       this.dataURL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
     }
   }

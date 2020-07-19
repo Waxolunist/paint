@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+      src/actions/painting.js - Documentation
+  </title>
+
+  <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+  
+  <link type="text/css" rel="stylesheet" href="styles/collapse.css">
+  
+
+  
+
+  <!-- start Mixpanel -->
+  <script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+  0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+  for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+  mixpanel.init("1919205b2da72e4da3b9b6639b444d59");</script>
+  <!-- end Mixpanel -->
+</head>
+
+<body>
+  <svg style="display: none;">
+    <defs>
+      <symbol id="linkIcon" fill="#706d77" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 0h24v24H0z" fill="none"/>
+          <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+  <label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+  </label>
+
+  <label for="nav-trigger" class="overlay"></label>
+
+  <div class="top-nav-wrapper">
+    <ul>
+      <li >
+        <a href="index.html">
+          
+            <svg fill="#6D6D6D" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+              <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+          
+          
+        </a>
+      </li>
+
+      
+
+    </ul>
+  </div>
+
+  <nav>
+    <h3 class="reference-title">
+      Paint
+    </h3>
+
+    
+
+    <h3>Modules</h3><ul><li id="appActions-nav"><a href="module-appActions.html">appActions</a><ul class='methods'><li data-type="method" id="appActions-loadPage-nav"><a href="module-appActions.html#~loadPage">loadPage</a></li><li data-type="method" id="appActions-navigate-nav"><a href="module-appActions.html#~navigate">navigate</a></li><li data-type="method" id="appActions-updateLocationURL-nav"><a href="module-appActions.html#~updateLocationURL">updateLocationURL</a></li><li data-type="method" id="appActions-updatePage-nav"><a href="module-appActions.html#~updatePage">updatePage</a></li></ul></li><li id="appReducers-nav"><a href="module-appReducers.html">appReducers</a><ul class='methods'><li data-type="method" id="appReducers-app-nav"><a href="module-appReducers.html#~app">app</a></li></ul></li><li id="paintingActions-nav"><a href="module-paintingActions.html">paintingActions</a><ul class='methods'><li data-type="method" id="paintingActions-addPainting-nav"><a href="module-paintingActions.html#~addPainting">addPainting</a></li><li data-type="method" id="paintingActions-initializeState-nav"><a href="module-paintingActions.html#~initializeState">initializeState</a></li><li data-type="method" id="paintingActions-openPainting-nav"><a href="module-paintingActions.html#~openPainting">openPainting</a></li><li data-type="method" id="paintingActions-receivePainting-nav"><a href="module-paintingActions.html#~receivePainting">receivePainting</a></li><li data-type="method" id="paintingActions-removePainting-nav"><a href="module-paintingActions.html#~removePainting">removePainting</a></li><li data-type="method" id="paintingActions-sharePainting-nav"><a href="module-paintingActions.html#~sharePainting">sharePainting</a></li><li data-type="method" id="paintingActions-trigger-nav"><a href="module-paintingActions.html#~trigger">trigger</a></li><li data-type="method" id="paintingActions-unselectPainting-nav"><a href="module-paintingActions.html#~unselectPainting">unselectPainting</a></li></ul></li><li id="paintingReducers-nav"><a href="module-paintingReducers.html">paintingReducers</a><ul class='methods'><li data-type="method" id="paintingReducers-paint-nav"><a href="module-paintingReducers.html#~paint">paint</a></li></ul></li></ul><h3>Namespaces</h3><ul><li id="Redux-nav"><a href="Redux.html">Redux</a></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#htmlcolors">htmlcolors</a></li><li><a href="global.html#outerWidth">outerWidth</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#waitTillTrue">waitTillTrue</a></li></ul>
+  </nav>
+
+  <div id="main">
+    
+      <h1 class="page-title">
+        src/actions/painting.js
+      </h1>
+    
+
+    
+      
+
+<section>
+  <article>
+    <pre class="prettyprint source linenums"><code>/** @type {import("redux-thunk").ThunkAction} */
+/**
+ * Actions for scope painting.
+ *
+ * @redux
+ * @reduxActionScope painting
+ * @module paintingActions
+ *
+ */
+import {updateLocationURL} from './app.js';
+
+import {Painting} from '../model/painting.js';
+import database from '../utils/database';
+
+/**
+ * @constant ADD_PAINTING
+ * @type {Redux.ActionType}
+ */
+export const ADD_PAINTING = 'ADD_PAINTING';
+
+/**
+ * @constant REMOVE_PAINTING
+ * @type {Redux.ActionType}
+ */
+export const REMOVE_PAINTING = 'REMOVE_PAINTING';
+
+/**
+ * @constant SHARE_PAINTING
+ * @type {Redux.ActionType}
+ */
+export const SHARE_PAINTING = 'SHARE_PAINTING';
+
+/**
+ * @constant OPEN_PAINTING
+ * @type {Redux.ActionType}
+ */
+export const OPEN_PAINTING = 'OPEN_PAINTING';
+
+/**
+ * @constant RECEIVE_PAINTING
+ * @type {Redux.ActionType}
+ */
+export const RECEIVE_PAINTING = 'RECEIVE_PAINTING';
+
+/**
+ * @constant TRIGGER
+ * @type {Redux.ActionType}
+ */
+export const TRIGGER = 'TRIGGER';
+
+/**
+ * @constant INITIAL_DATA_LOAD
+ * @type {Redux.ActionType}
+ */
+export const INITIAL_DATA_LOAD = 'INITIAL_DATA_LOAD';
+
+/**
+ * @constant UNSELECT_PAINTING
+ * @type {Redux.ActionType}
+ */
+export const UNSELECT_PAINTING = 'UNSELECT_PAINTING';
+
+/**
+ * Action to create a new painting.
+ * Dispatches an {@link module:paintingActions~ADD_PAINTING ADD_PAINTING} and
+ * {@link module:paintingActions~openPainting openPainting} action.
+ *
+ * @name addPainting
+ * @method
+ * @redux
+ * @return { ThunkAction }
+ * @see {@link Redux.AsyncActionCreator}
+ * @see {@link module:paintingActions~ADD_PAINTING ADD_PAINTING}
+ * @see {@link module:paintingActions~openPainting openPainting}
+ */
+export const addPainting = () => (dispatch) => {
+  const painting = new Painting();
+  dispatch({
+    type: ADD_PAINTING,
+    painting,
+  });
+  dispatch(openPainting(painting.id));
+};
+
+/**
+ * Action to load a painting into the state
+ * ({@link module:paintingActions~RECEIVE_PAINTING RECEIVE_PAINTING}).
+ *
+ * @name receivePainting
+ * @method
+ * @redux
+ * @param {number | string} paintingId Id of the painting to load from the database
+ * @return { ThunkAction }
+ * @see {@link Redux.AsyncActionCreator}
+ * @see {@link module:paintingActions~RECEIVE_PAINTING RECEIVE_PAINTING}
+ */
+export const receivePainting = (paintingId) => async (dispatch) => {
+  const db = await database();
+  const painting = await db.paintings.get(parseInt(paintingId));
+  dispatch({
+    type: RECEIVE_PAINTING,
+    paintingId,
+    painting,
+  });
+};
+
+/**
+ * Action to load a painting and open it.
+ *
+ * @name openPainting
+ * @method
+ * @redux
+ * @param {number | string} paintingId Id of the painting to open
+ * @return { ThunkAction }
+ * @see {@link Redux.AsyncActionCreator}
+ * @see {@link module:paintingActions~receivePainting receivePainting}
+ */
+export const openPainting = (paintingId) => async (dispatch) => {
+  await dispatch(receivePainting(paintingId));
+  dispatch(updateLocationURL('/paint/' + paintingId));
+};
+
+/**
+ * Remove a painting.
+ *
+ * @name removePainting
+ * @method
+ * @redux
+ * @param {number | string} paintingId Id of the painting to remove
+ * @return { ThunkAction }
+ * @see {@link Redux.AsyncActionCreator}
+ * @see {@link module:paintingActions~REMOVE_PAINTING REMOVE_PAINTING}
+ */
+export const removePainting = (paintingId) => async (dispatch) => {
+  dispatch({
+    type: REMOVE_PAINTING,
+    paintingId,
+  });
+};
+
+/**
+ * Share a painting.
+ *
+ * @name sharePainting
+ * @method
+ * @redux
+ * @param {number | string} paintingId Id of the painting to share
+ * @return { ThunkAction }
+ * @see {@link Redux.AsyncActionCreator}
+ * @see {@link module:paintingActions~SHARE_PAINTING SHARE_PAINTING}
+ */
+export const sharePainting = (paintingId) => async (dispatch) => {
+  dispatch({
+    type: SHARE_PAINTING,
+    paintingId,
+  });
+};
+
+/**
+ * Trigger state changed event.
+ *
+ * @name trigger
+ * @method
+ * @redux
+ * @return { ThunkAction }
+ * @see {@link Redux.AsyncActionCreator}
+ * @see {@link module:paintingActions~TRIGGER TRIGGER}
+ */
+export const trigger = () => async (dispatch) => {
+  const ts = Date.now();
+  dispatch({
+    type: TRIGGER,
+    ts,
+  });
+};
+
+/**
+ * Action to unselect the current painting.
+ * This is the reverse action for {@link module:paintingActions~receivePainting receivePainting}.
+ *
+ * @name unselectPainting
+ * @method
+ * @redux
+ * @return { ThunkAction }
+ * @see {@link Redux.AsyncActionCreator}
+ * @see {@link module:paintingActions~UNSELECT_PAINTING UNSELECT_PAINTING}
+ */
+export const unselectPainting = () => async (dispacth) => {
+  dispacth({
+    type: UNSELECT_PAINTING,
+  });
+};
+
+/**
+ * Initializes the store with the data for the overview page.
+ *
+ * @name initializeState
+ * @method
+ * @return { ThunkAction }
+ * @see {@link Redux.AsyncActionCreator}
+ * @see {@link module:paintingActions~INITIAL_DATA_LOAD INITIAL_DATA_LOAD}
+ */
+export const initializeState = () => async (dispatch) => {
+  const db = await database();
+  const paintings = await db.paintings.toArray((arr) =>
+    arr.map(({id, dataURL}) => ({id, dataURL})));
+  dispatch({
+    type: INITIAL_DATA_LOAD,
+    paintings,
+  });
+};
+</code></pre>
+  </article>
+</section>
+
+    
+
+
+  </div>
+
+  <br class="clear">
+
+  <footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
+  </footer>
+
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/pagelocation.js"></script>
+
+  
+
+</body>
+</html>

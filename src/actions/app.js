@@ -1,30 +1,47 @@
 /**
-@license
-Copyright (C) 2018  Christian Sterzl <christian.sterzl@gmail.com>
+ * Actions for scope app.
+ *
+ * @redux
+ * @reduxActionScope app
+ * @module appActions
+ */
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
-*/
+/**
+ * @constant UPDATE_PAGE
+ * @type {Redux.ActionType}
+ */
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 
-export const navigate = (location) => (dispatch) => {
-  const pathname = location.pathname;
+/**
+ * Navigate to the location.
+ *
+ * @name navigate
+ * @method
+ * @redux
+ * @param {Object} location location object
+ * @param {string} [location.pathname=/overview] pathname to go to
+ * @return { ThunkAction }
+ * @see {@link Redux.AsyncActionCreator}
+ * @see {@link module:appActions~loadPage loadPage}
+ */
+export const navigate = ({pathname = '/overview'}) => async (dispatch) => {
   const parts = pathname.slice(1).split('/');
   const page = parts[0] || 'overview';
   const detailId = parts[1];
   dispatch(loadPage(page, detailId));
 };
 
+/**
+ * Load page.
+ *
+ * @name loadPage
+ * @method
+ * @redux
+ * @param {string} page location object
+ * @param {string=} detailId detail paramater
+ * @return { ThunkAction }
+ * @see {@link Redux.AsyncActionCreator}
+ */
 const loadPage = (page, detailId) => async (dispatch) => {
   switch (page) {
     case 'overview':
@@ -47,15 +64,32 @@ const loadPage = (page, detailId) => async (dispatch) => {
   dispatch(updatePage(page));
 };
 
-const updatePage = (page) => {
-  return {
-    type: UPDATE_PAGE,
-    page,
-  };
-};
+/**
+ * Update page.
+ *
+ * @name updatePage
+ * @method
+ * @redux
+ * @param {string} page page object to update
+ * @return { ThunkAction }
+ * @see {@link Redux.AsyncActionCreator}
+ */
+const updatePage = (page) => async (dispatch) => dispatch({
+  type: UPDATE_PAGE,
+  page,
+});
 
-
-export const updateLocationURL = (url) => (dispatch, getState) => {
+/**
+ * Update page.
+ *
+ * @name updateLocationURL
+ * @method
+ * @redux
+ * @param {string} url set window location url
+ * @return { ThunkAction }
+ * @see {@link Redux.AsyncActionCreator}
+ */
+export const updateLocationURL = (url) => async (dispatch) => {
   window.history.pushState({}, '', url);
   dispatch(navigate(window.location));
 };
